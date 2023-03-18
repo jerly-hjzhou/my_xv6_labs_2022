@@ -1,0 +1,19 @@
+Q1: Looking at the backtrace output, which function called syscall?
+A1: The usertrap() function called syscall.
+
+Q2: What is the value of p->trapframe->a7 and what does that value represent?
+A2: The value is 7 whcih represents SYS_exec.
+
+Q3: What was the previous mode that the CPU was in?
+A3: After printing the $sstatus, it was found to be 0x22, with the SPP bit set to 0. When a trap is taken, SPP is set to 0 if the trap originated from user mode, or 1 otherwise. So the previous mode the CPU in was user mode.
+
+Q4: Write down the assembly instruction the kernel is panicing at. Which register corresponds to the variable num?
+A4: The sepc=0x0000000080001ff4. The kernel is pannicing at `lw a3,0(zero)`. The register corresponds to the variable num is `a3`.
+
+Q5: Why does the kernel crash? Is address 0 mapped in the kernel address space? Is that confirmed by the value in scause above?
+A5: Because it access the address 0x0 which is invalid. Address 0 isn't mapped in the kernel space. The value in scause is 0x000000000000000d. It's Interrupt bit is 0 and Exception Code is 13 which confirm us that this crash is caused by Load Page Fault.
+
+Q6: What is the name of the binary that was running when the kernel paniced? What is its process id (pid)?
+A6: Based on the output of the command `p p->name`, it appears that the name of the running binary when the kernel paniced is "initcode\000\000\000\000\000\000\000". With command `p p->pid', its process id is 1.
+
+
